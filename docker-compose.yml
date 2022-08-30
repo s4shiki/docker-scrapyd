@@ -6,11 +6,19 @@ services:
       - "6800:6800"
     volumes:
       - ./data:/var/lib/scrapyd
-      - .:/code
-    working_dir: /code
+      - ./app:/app
+    working_dir: /app
     depends_on:
-      - "db"
+      - splash
     tty: true
+
+  splash:
+    depends_on:
+      - db
+    image: scrapinghub/splash:3.5
+    ports:
+      - 8050:8050
+
   db:
     image: mysql:5.7
     container_name: mysql_host
